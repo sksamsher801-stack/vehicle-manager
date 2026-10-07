@@ -13,7 +13,11 @@ SECRET_KEY = 'kic@e$r+3f*e7&=%n+q$_&1n@4o_f(r#c_dl5lay#uj96#-&+1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "vehicle-manager-xsdr.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
