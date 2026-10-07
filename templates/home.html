@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1>Vehicle Manager</h1>
+    <p class="lead">Manage your cars and bikes in one place.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'vehicle_list' %}">Car List</a>
+</div>
+{% endblock %}

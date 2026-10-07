@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .history-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .sale-card {
+        width: 320px;
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .sale-card h3 {
+        margin-top: 0;
+        color: #222;
+    }
+
+    .sale-card p {
+        margin: 8px 0;
+        color: #555;
+    }
+
+    .sale-card .customer {
+        background: #f3f4f6;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .sale-card .vehicle {
+        background: #eef6ff;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .sale-price {
+        font-size: 20px;
+        font-weight: bold;
+        color: green;
+    }
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+</style>
+
+<h2 class="page-title">Customer Sale History</h2>
+
+<div class="history-container">
+
+    {% for sale in sales %}
+
+    <div class="sale-card">
+
+        <h3>Customer Details</h3>
+
+        <div class="customer">
+            <p><strong>Name:</strong> {{ sale.customer_name }}</p>
+
+            <p><strong>Phone:</strong> {{ sale.customer_phone }}</p>
+
+            <p><strong>Address:</strong> {{ sale.customer_address }}</p>
+        </div>
+
+        <h3>Vehicle Details</h3>
+
+        <div class="vehicle">
+
+            <p>
+                <strong>Type:</strong>
+                {{ sale.vehicle.vehicle_type }}
+            </p>
+
+            <p>
+                <strong>Model:</strong>
+                {{ sale.vehicle.model_name }}
+            </p>
+
+            <p>
+                <strong>Registration:</strong>
+                {{ sale.vehicle.registration_number }}
+            </p>
+
+            <p>
+                <strong>Fuel:</strong>
+                {{ sale.vehicle.fuel_type }}
+            </p>
+
+        </div>
+
+        <p class="sale-price">
+            ₹{{ sale.sold_price }}
+        </p>
+
+        <p>
+            <strong>Sold At:</strong>
+            {{ sale.sold_at|date:"d M Y, h:i A" }}
+        </p>
+
+    </div>
+
+    {% empty %}
+
+    <p>No customer sale history found.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

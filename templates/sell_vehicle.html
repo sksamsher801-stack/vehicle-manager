@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-6">
+    <h2>Sell Vehicle</h2>
+    <div class="alert alert-light">{{ vehicle.model_name }} · {{ vehicle.registration_number }} · Price: {{ vehicle.price }}</div>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+        <div class="mb-3"><label class="form-label" for="id_customer_name">Customer name</label>{{ form.customer_name }}{{ form.customer_name.errors }}</div>
+        <div class="mb-3"><label class="form-label" for="id_customer_phone">Phone number</label>{{ form.customer_phone }}{{ form.customer_phone.errors }}</div>
+        <div class="mb-3"><label class="form-label" for="id_customer_address">Address</label>{{ form.customer_address }}{{ form.customer_address.errors }}</div>
+        <button class="btn btn-success" type="submit">Confirm sale</button>
+        <a class="btn btn-secondary" href="{% url 'vehicle_list' %}">Cancel</a>
+    </form>
+</div></div>
+<style>
+    #id_customer_name, #id_customer_phone, #id_customer_address { display: block; width: 100%; padding: .375rem .75rem; border: 1px solid #ced4da; border-radius: .375rem; }
+    #id_customer_address { min-height: 100px; }
+</style>
+{% endblock %}

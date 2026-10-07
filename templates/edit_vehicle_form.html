@@ -1,0 +1,6 @@
+<form id="editVehicleForm" action="{% url 'edit_vehicle' vehicle.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div id="editVehicleErrors" class="text-danger" aria-live="polite"></div>
+    <button class="btn btn-primary" type="submit">Save changes</button>
+</form>

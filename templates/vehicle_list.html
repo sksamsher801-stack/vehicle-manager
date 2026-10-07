@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h2>Vehicle List</h2>
+<form class="row g-2 mb-4" method="get" action="{% url 'vehicle_list' %}">
+    <div class="col-sm-8 col-md-6"><label class="visually-hidden" for="vehicleSearch">Search vehicles</label><input id="vehicleSearch" name="q" value="{{ query }}" class="form-control" placeholder="Search by vehicle name or number"></div>
+    <div class="col-auto"><button class="btn btn-primary" type="submit">Search</button><a class="btn btn-outline-secondary" href="{% url 'vehicle_list' %}">Clear</a></div>
+</form>
+<div id="vehicleListMessage" class="mb-3" aria-live="polite"></div>
+<div class="row g-3">
+    {% for vehicle in vehicles %}
+    <div class="col-sm-6 col-lg-4" id="vehicle-{{ vehicle.id }}">
+        <div class="card h-100">
+            {% if vehicle.picture %}<img src="{{ vehicle.picture.url }}" class="card-img-top vehicle-picture" style="height: 180px; object-fit: cover" alt="{{ vehicle.model_name }}">{% endif %}
+            <div class="card-body">
+                <h3 class="h5 vehicle-model">{{ vehicle.model_name }}</h3>
+                <p class="mb-1">Number: <span class="vehicle-number">{{ vehicle.registration_number }}</span></p>
+                <p class="mb-1">Type: <span class="vehicle-type">{{ vehicle.get_vehicle_type_display }}</span></p>
+                <p class="mb-1">Fuel: <span class="vehicle-fuel">{{ vehicle.get_fuel_type_display }}</span></p>
+                <p>Price: <span class="vehicle-price">{{ vehicle.price }}</span></p>
+                <button class="btn btn-primary btn-sm edit-vehicle" type="button" data-url="{% url 'edit_vehicle' vehicle.id %}">Edit</button>
+                <a class="btn btn-success btn-sm" href="{% url 'sell_vehicle' vehicle.id %}">Sell</a>
+                <form class="d-inline delete-vehicle-form" method="post" action="{% url 'delete_vehicle' vehicle.id %}">
+                    {% csrf_token %}<button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% empty %}<p>{% if query %}No vehicles match “{{ query }}”.{% else %}No vehicles available.{% endif %}</p>{% endfor %}
+</div>
+
+<div class="modal fade" id="editVehicleModal" tabindex="-1" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"><div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title fs-5" id="editVehicleModalLabel">Edit vehicle</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+        <div class="modal-body" id="editVehicleModalBody"></div>
+    </div></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/vehicle.js' %}"></script>
+{% endblock %}
